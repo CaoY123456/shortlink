@@ -1,0 +1,50 @@
+### Send these with the little green arrow in the IntelliJ gutter.
+### Start the app first, and make sure `docker compose up -d` is running.
+
+### 1. Shorten a URL. Copy the shortUrl from the response into request 2.
+POST http://localhost:8080/api/shorten
+Content-Type: application/json
+
+{
+  "longUrl": "https://docs.spring.io/spring-boot/reference/data/sql.html"
+}
+
+### 2. Follow a short code. Replace CODE with the one you just got.
+### IntelliJ follows redirects by default, so you will see the target page's
+### HTML. To see the raw 302 instead, look at the response headers.
+GET http://localhost:8080/CODE
+
+### 3. Click stats for that code.
+GET http://localhost:8080/api/stats/CODE
+
+### 4. Unknown code -> 404.
+GET http://localhost:8080/zzzzzz
+
+### 5. Rejected: not a URL at all -> 400.
+POST http://localhost:8080/api/shorten
+Content-Type: application/json
+
+{
+  "longUrl": "just some text"
+}
+
+### 6. Rejected: dangerous scheme -> 400.
+### Without the scheme check in ShortlinkService this would be stored and
+### later served back inside a redirect from our own domain.
+POST http://localhost:8080/api/shorten
+Content-Type: application/json
+
+{
+  "longUrl": "javascript:alert(1)"
+}
+
+### 7. Rejected: blank -> 400, caught by @NotBlank before our code runs.
+POST http://localhost:8080/api/shorten
+Content-Type: application/json
+
+{
+  "longUrl": ""
+}
+
+### 8. Is the app alive?
+GET http://localhost:8080/actuator/health

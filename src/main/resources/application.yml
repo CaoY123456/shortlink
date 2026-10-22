@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: shortlink
+
+  datasource:
+    # Port 3307 matches the mapping in docker-compose.yml.
+    # allowPublicKeyRetrieval is required because MySQL 8 defaults to the
+    # caching_sha2_password plugin and we connect without TLS locally.
+    url: jdbc:mysql://localhost:3307/shortlink?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    username: root
+    password: root
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+
+# Custom settings, bound to ShortlinkProperties.
+shortlink:
+  # Used to build the full short URL returned to the caller.
+  # Becomes the real domain once the service is deployed (M4).
+  base-url: http://localhost:8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    # Prints every SQL statement JdbcClient executes - useful while learning,
+    # turn it off before deploying.
+    org.springframework.jdbc.core: debug
