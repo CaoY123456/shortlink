@@ -1,42 +1,23 @@
-.gradle
+### Gradle ###
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
 
 ### VS Code ###
 .vscode/
 
-### ProxyAI ###
+### AI tool local state (rules are tracked, local state is not) ###
 .proxyai/
+# Continue: keep .continue/rules/ (project rules for the AI), ignore the rest
+.continue/*
+!.continue/rules/
 
 ### Logs & dumps ###
 *.log
@@ -49,4 +30,3 @@ Thumbs.db
 
 ### Local config ###
 application-local.yml
-
