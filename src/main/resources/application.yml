@@ -14,6 +14,12 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+  data:
+    redis:
+      # Port 6380 matches the mapping in docker-compose.yml.
+      host: localhost
+      port: 6380
+
 server:
   port: 8080
 
@@ -22,6 +28,12 @@ shortlink:
   # Used to build the full short URL returned to the caller.
   # Becomes the real domain once the service is deployed (M4).
   base-url: http://localhost:8080
+
+  flush:
+    # How often ClickCountFlushJob drains Redis counters into MySQL.
+    # Short while developing so you can see it fire; a real deployment
+    # would set this to something like 10-15 minutes instead.
+    interval-ms: 15000
 
 management:
   endpoints:

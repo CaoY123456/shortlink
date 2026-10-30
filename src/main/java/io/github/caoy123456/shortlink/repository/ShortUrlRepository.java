@@ -108,4 +108,24 @@ public class ShortUrlRepository {
                 .param("shortCode", shortCode)
                 .update();
     }
+
+    /**
+     * Adds {@code delta} unflushed clicks (read from Redis) onto the stored
+     * click_count for one short code. Used by {@link
+     * io.github.caoy123456.shortlink.service.ClickCountFlushJob}.
+     *
+     * TODO (you write this): same shape as {@link #incrementClickCount},
+     * except the amount to add is a parameter instead of the literal 1.
+     *
+     * @param shortCode the code to update
+     * @param delta     number of clicks to add; always &gt; 0 - the caller
+     *                  (the flush job) is responsible for never calling this
+     *                  with zero or a negative number
+     */
+    public void incrementClickCountBy(String shortCode, long delta) {
+        jdbcClient.sql("update short_url set click_count = click_count + :delta where short_code = :shortCode")
+                .param("delta", delta)
+                .param("shortCode", shortCode)
+                .update();
+    }
 }

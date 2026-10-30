@@ -1,6 +1,13 @@
 ### Gradle ###
 .gradle/
 build/
+.kotlin/
+!gradle/wrapper/gradle-wrapper.jar
+
+### Build artifacts ###
+# bootJar / plain jar output; the wrapper jar is re-included above
+*.jar
+*.war
 !gradle/wrapper/gradle-wrapper.jar
 
 ### IntelliJ IDEA ###
@@ -13,8 +20,18 @@ out/
 ### VS Code ###
 .vscode/
 
+### Eclipse / STS ###
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+
 ### AI tool local state (rules are tracked, local state is not) ###
 .proxyai/
+# Claude Code: personal settings and worktrees stay local
+.claude/settings.local.json
+.claude/worktrees/
 # Continue: keep .continue/rules/ (project rules for the AI), ignore the rest
 .continue/*
 !.continue/rules/
@@ -27,6 +44,25 @@ logs/
 ### OS ###
 .DS_Store
 Thumbs.db
+desktop.ini
 
-### Local config ###
+### Local config & secrets (MySQL / Redis credentials live here, never commit) ###
 application-local.yml
+application-local.yaml
+application-local.properties
+application-*-local.yml
+.env
+.env.*
+!.env.example
+docker-compose.override.yml
+
+### Local data ###
+# in case a MySQL/Redis volume is ever bind-mounted next to the project
+mysql-data/
+redis-data/
+dump.rdb
+appendonly.aof
+appendonlydir/
+
+### Generated docs (default output dir) ###
+doc/

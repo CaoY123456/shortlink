@@ -20,5 +20,24 @@ services:
       retries: 20
       start_period: 30s
 
+  redis:
+    image: redis:7.4
+    container_name: shortlink-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    # Host port 6380 -> container 6379, same idea as MySQL's 3307:
+    # avoids clashing with a Redis installed on the host.
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
 volumes:
   mysql-data:
+  redis-data:
